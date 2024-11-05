@@ -41,8 +41,8 @@
             const view = new MapView({
                 container: "viewDiv", // reference to the DOM node that will contain the view; uses "id" attribute of <div> element
                 map: map, // references the map object
-                center: [106.92, 16.95],
-                zoom: 15
+                center: [0, 0],
+                zoom: 3
             });
 
             // creates locate widget
@@ -62,7 +62,7 @@
             });
 
             view.ui.add(searchBar, {
-                position: "top-center"
+                position: "top-left"
             });
 
          });
