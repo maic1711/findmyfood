@@ -23,6 +23,25 @@
             height: 100%;
             width: 100%;
         }
+
+        .addEncounterButton{
+            position: absolute;
+            z-index: 10;
+            top: 10px;
+            right: 10px;
+            background-color: #faf0e6;
+            color: #686802;
+            padding: 8px 16px;
+            border: none; 
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .addEncounterButton:hover{
+            background-color: #ffe4e1
+        }
     </style>
 
     <!-- adding modules from esri.js -->
@@ -42,7 +61,7 @@
             const view = new MapView({
                 container: "viewDiv", // reference to the DOM node that will contain the view; uses "id" attribute of <div> element
                 map: map, // references the map object
-                center: [0, 0],
+                center: [106.92, 16.95],
                 zoom: 3
             });
 
@@ -63,7 +82,7 @@
             });
 
             view.ui.add(searchBar, {
-                position: "top-left"
+                position: "top-center"
             });
 
             const surveyLayer = new FeatureLayer({
@@ -80,6 +99,7 @@
   </head>
 
   <body>
+    <a href="https://arcg.is/0iiCeT1" target="_blank" lassc=""addEncounterButton">Add Encounter</a>
     <div id="viewDiv"></div>
   </body>
 
