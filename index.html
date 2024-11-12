@@ -37,7 +37,7 @@
 
             // defines map
             const map = new Map({   
-                basemap: "topographic"
+                basemap: "arcgis/navigation"
             });
 
             const view = new MapView({
@@ -67,16 +67,16 @@
                 position: "top-center"
             });
 
-            const walkLayer = new TileLayer({
-                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
-            })
+            // const walkLayer = new TileLayer({
+            //     url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
+            // })
 
-            const driveLayer = new TileLayer({
-                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
-            })
+            // const driveLayer = new TileLayer({
+            //     url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
+            // })
 
-            map.add(walkLayer);
-            map.add(driveLayer);
+            // map.add(walkLayer);
+            // map.add(driveLayer);
 
 
         });
