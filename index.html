@@ -41,10 +41,10 @@
             });
 
             const view = new MapView({
-                container: "viewDiv", // reference to the DOM node that will contain the view; uses "id" attribute of <div> element
                 map: map, // references the map object
                 center: [-98.58, 39.83], // long, lat of geographic center of US
-                zoom: 5
+                zoom: 5,
+                container: "viewDiv"
             });
 
             // creates locate widget
@@ -72,7 +72,7 @@
             })
 
             const driveLayer = new TileLayer({
-                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
+                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_drive2/MapServer"
             })
 
             const vehicleLayer = new FeatureLayer({
