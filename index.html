@@ -29,15 +29,15 @@
     <!-- adding modules from esri.js -->
     <script>
 
-        require(["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer", "esri/layers/TileLayer"], 
-        (esriConfig, Map, MapView, Locate, Search, FeatureLayer, TileLayer) => {
+        require(["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer", "esri/layers/TileLayer", "esri/widgets/Editor"], 
+        (esriConfig, Map, MapView, Locate, Search, FeatureLayer, TileLayer, Editor) => {
             
             // adds api key to use esri.js
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurCp0yZc6iRenDrhA3AMRYMb-ybUwBFVK_OKiBCZf4k4ql4ildsvRvwu2n9YSSahzZiyjQ67cvFxEB8U45MsT1tnpVqKoAKAqt-T4ufLFCv_TZnloiIBdv33_qGIEV0i_K1z9F-HXXGTvUmcfZbvLckqFqTUfJnqB6oAN5tl2fGKT-OME4yqyYGmWeCrpV0wOi2BzpY3-HqsVZJ3IFuxIXc8.AT1_uMncBI2j";
 
             // defines map
             const map = new Map({   
-                basemap: "arcgis/navigation"
+                basemap: "arcgis/topographic"
             });
 
             const view = new MapView({
@@ -67,21 +67,36 @@
                 position: "top-right"
             });
 
-            const walkLayer = new TileLayer({
-                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
-            })
+            // const walkLayer = new TileLayer({
+            //     url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
+            // })
 
-            const driveLayer = new TileLayer({
-                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
-            })
+            // const driveLayer = new TileLayer({
+            //     url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
+            // })
 
             const vehicleLayer = new FeatureLayer({
                 url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Vehicle_Availability_Boundaries/FeatureServer"
             })
 
-            map.add(walkLayer);
-            map.add(driveLayer);
+            // map.add(walkLayer);
+            // map.add(driveLayer);
             map.add(vehicleLayer);
+
+            const providerLayer = new FeatureLayer({
+                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Food_Providers/FeatureServer"
+            });
+
+            const pointInfo = {
+                layer: providerLayer
+            }
+
+            const editor = new Editor({
+                view: view,
+                layerInfos: [pointInfo]
+            });
+
+            view.ui.add(editor, "top-right");
 
         });
 
