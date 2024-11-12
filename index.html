@@ -44,7 +44,7 @@
                 container: "viewDiv", // reference to the DOM node that will contain the view; uses "id" attribute of <div> element
                 map: map, // references the map object
                 center: [-98.58, 39.83], // long, lat of geographic center of US
-                zoom: 3
+                zoom: 5
             });
 
             // creates locate widget
@@ -64,20 +64,24 @@
             });
 
             view.ui.add(searchBar, {
-                position: "top-center"
+                position: "top-right"
             });
 
-            // const walkLayer = new TileLayer({
-            //     url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
-            // })
+            const walkLayer = new TileLayer({
+                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
+            })
 
-            // const driveLayer = new TileLayer({
-            //     url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
-            // })
+            const driveLayer = new TileLayer({
+                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
+            })
 
-            // map.add(walkLayer);
-            // map.add(driveLayer);
+            const vehicleLayer = new FeatureLayer({
+                url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Vehicle_Availability_Boundaries/FeatureServer"
+            })
 
+            map.add(walkLayer);
+            map.add(driveLayer);
+            map.add(vehicleLayer);
 
         });
 
