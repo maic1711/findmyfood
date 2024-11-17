@@ -37,7 +37,7 @@
 
             // defines map
             const map = new Map({   
-                basemap: "arcgis/topographic"
+                basemap: "topographic"
             });
 
             const view = new MapView({
@@ -67,21 +67,21 @@
                 position: "top-right"
             });
 
-            // const walkLayer = new TileLayer({
-            //     url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
-            // })
+            const walkLayer = new TileLayer({
+                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
+            })
 
-            // const driveLayer = new TileLayer({
-            //     url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_drive2/MapServer"
-            // })
+            const driveLayer = new TileLayer({
+                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_drive2/MapServer"
+            })
 
-            // const vehicleLayer = new FeatureLayer({
-            //     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Vehicle_Availability_Boundaries/FeatureServer"
-            // })
+            const vehicleLayer = new FeatureLayer({
+                url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Vehicle_Availability_Boundaries/FeatureServer"
+            })
 
-            // map.add(walkLayer);
-            // map.add(driveLayer);
-            // map.add(vehicleLayer);
+            map.add(walkLayer);
+            map.add(driveLayer);
+            map.add(vehicleLayer);
 
             const providerLayer = new FeatureLayer({
                 url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Food_Providers/FeatureServer"
