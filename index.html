@@ -29,8 +29,8 @@
     <!-- adding modules from esri.js -->
     <script>
 
-        require(["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer", "esri/layers/TileLayer", "esri/widgets/Editor"], 
-        (esriConfig, Map, MapView, Locate, Search, FeatureLayer, TileLayer, Editor) => {
+        require(["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/Locate", "esri/widgets/Search", "esri/layers/FeatureLayer", "esri/widgets/Editor"], 
+        (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor) => {
             
             // adds api key to use esri.js
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurCp0yZc6iRenDrhA3AMRYMb-ybUwBFVK_OKiBCZf4k4ql4ildsvRvwu2n9YSSahzZiyjQ67cvFxEB8U45MsT1tnpVqKoAKAqt-T4ufLFCv_TZnloiIBdv33_qGIEV0i_K1z9F-HXXGTvUmcfZbvLckqFqTUfJnqB6oAN5tl2fGKT-OME4yqyYGmWeCrpV0wOi2BzpY3-HqsVZJ3IFuxIXc8.AT1_uMncBI2j";
@@ -42,10 +42,16 @@
 
             const view = new MapView({
                 map: map, // references the map object
-                center: [-98.58, 39.83], // long, lat of geographic center of US
-                zoom: 3,
+                center: [-81.76, 27.99], // long, lat of Florida
+                zoom: 4,
                 container: "viewDiv"
             });
+
+            const foodDesert = new FeatureLayer({
+                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/Join_Features_to_Census_Tracts_2010/FeatureServer"
+            });
+
+            map.add(foodDesert);
 
             // creates locate widget
             const  locateButton = new Locate({
@@ -67,22 +73,6 @@
                 position: "top-right"
             });
 
-            const walkLayer = new TileLayer({
-                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_walk_3/MapServer"
-            })
-
-            const driveLayer = new TileLayer({
-                url: "https://tiles.arcgis.com/tiles/4yjifSiIG17X0gW4/arcgis/rest/services/Stores_within_a_10_minute_drive2/MapServer"
-            })
-
-            const vehicleLayer = new FeatureLayer({
-                url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Vehicle_Availability_Boundaries/FeatureServer"
-            })
-
-            map.add(walkLayer);
-            map.add(driveLayer);
-            map.add(vehicleLayer);
-
             const providerLayer = new FeatureLayer({
                 url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Food_Providers/FeatureServer"
             });
@@ -96,7 +86,7 @@
                 layerInfos: [pointInfo]
             });
 
-            view.ui.add(editor, "top-right");
+            view.ui.add(editor, "bottom-right");
 
         });
 
