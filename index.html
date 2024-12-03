@@ -52,7 +52,7 @@
                 container: "viewDiv",
                 map: map, // references the map object
                 center: [-81.76, 27.99], // long, lat of Florida
-                zoom: 4
+                zoom: 6
             });
 
             const foodPopup = {
@@ -69,6 +69,35 @@
             });
 
             map.add(foodDesert);
+
+            const lowAccessPopup = {
+                "title": "Areas with Limited Access to Supermarkets",
+                "content": "<b> Population with low access (%)</b>: {PopwtAcces}"
+            }
+
+            const lowAccess = new FeatureLayer({
+                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/TRF_LSA_ms/FeatureServer",
+                outFields: "PopwtAcces",
+                popupTemplate: lowAccessPopup
+
+            });
+
+            map.add(lowAccess);
+
+            const pantryPopup = {
+                "title": "Food Pantry: {Agency_Name}",
+                "content": `
+                <b>Address</b>: {Address}, {City}<br>
+                <b>Phone Number</b>: {Phone_Number}`
+            }
+
+            const foodPantry = new FeatureLayer({
+                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/Food_Pantries/FeatureServer",
+                outfields: ["Agency_Name", "Address", "City", "Phone_Number"],
+                popupTemplate: pantryPopup
+            });
+
+            map.add(foodPantry);
 
             // creates locate widget
             const  locateButton = new Locate({
@@ -97,21 +126,22 @@
                     "color": " #ffce1b",  // mustard yellow
                     "size": 10
                 }
-            }
+            };
 
             const providerLayer = new FeatureLayer({
                 url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Food_Providers/FeatureServer",
-                outfields: ["Food Provider", "Location"],
-                symbol: providerRenderer
+                outfields: ["FoodProvider", "Location"],
+                symbol: providerRenderer,
+                editingEnabled: true
             });
 
-            const pointInfo = {
+            const pointInfos = {
                 layer: providerLayer
             }
 
             const editor = new Editor({
                 view: view,
-                layerInfos: [pointInfo]
+                layerInfos: [pointInfos]
             });
 
             view.ui.add(editor, "bottom-right");
