@@ -24,6 +24,17 @@
             width: 100%;
         }
 
+        #togglePopupBtn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 99;
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
     </style>
 
     <!-- adding modules from esri.js -->
@@ -35,10 +46,9 @@
             "esri/views/MapView", 
             "esri/widgets/Locate", 
             "esri/widgets/Search", 
-            "esri/layers/FeatureLayer", 
-            "esri/widgets/Editor"], 
+            "esri/layers/FeatureLayer"], 
 
-        function(esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor) {
+        function(esriConfig, Map, MapView, Locate, Search, FeatureLayer) {
             
             // adds api key to use esri.js
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurCp0yZc6iRenDrhA3AMRYMb-ybUwBFVK_OKiBCZf4k4ql4ildsvRvwu2n9YSSahzZiyjQ67cvFxEB8U45MsT1tnpVqKoAKAqt-T4ufLFCv_TZnloiIBdv33_qGIEV0i_K1z9F-HXXGTvUmcfZbvLckqFqTUfJnqB6oAN5tl2fGKT-OME4yqyYGmWeCrpV0wOi2BzpY3-HqsVZJ3IFuxIXc8.AT1_uMncBI2j";
@@ -119,32 +129,28 @@
                 position: "top-right"
             });
 
-            const providerRenderer = {
-                "type": "simple",
-                "symbol": {
-                    "type": "simple-marker",
-                    "color": " #ffce1b",  // mustard yellow
-                    "size": 10
-                }
-            };
-
-            const providerLayer = new FeatureLayer({
-                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Food_Providers/FeatureServer",
-                outfields: ["FoodProvider", "Location"],
-                symbol: providerRenderer,
-                editingEnabled: true
-            });
-
-            const pointInfos = {
-                layer: providerLayer
-            }
-
-            const editor = new Editor({
+            const popup = new Popup({
                 view: view,
-                layerInfos: [pointInfos]
+                alignment: "top-right",
+                content: `
+                This map is designed to help you locate areas in Florida and see if
+                it falls within a food desert or an area with food insecurity for educational
+                or personal purposes. Food pantries are also marked, with their addresses and 
+                phone numbers.`
             });
 
-            view.ui.add(editor, "bottom-right");
+            // Add the popup to the view
+            view.popup = popup;
+
+            // Toggle popup visibility
+            const togglePopupBtn = document.getElementById("togglePopupBtn");
+            togglePopupBtn.addEventListener("click", function () {
+                if (view.popup.visible) {
+                    view.popup.visible = false;
+                } else {
+                    view.popup.visible = true;
+                }
+            });
 
         });
 
@@ -155,6 +161,7 @@
 
   <body>
     <div id="viewDiv"></div>
+    <button id="togglePopupBtn">Toggle Popup</button>
   </body>
 
 </html>
