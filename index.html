@@ -23,7 +23,7 @@
             height: 100%;
             width: 100%;
         }
-        #popupBox {
+        /* #popupBox {
             display: none;
             position: absolute;
             top: 50%;
@@ -35,8 +35,8 @@
             border: 1px solid #ccc;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-        }
-        #togglePopupBtn {
+        } */
+        /* #togglePopupBtn {
             position: absolute;
             top: 10px;
             left: 10px;
@@ -45,7 +45,7 @@
             padding: 10px;
             border: 1px solid #ccc;
             cursor: pointer;
-        }
+        } */
     </style>
 
     <!-- adding modules from esri.js -->
@@ -164,28 +164,28 @@
 
         });
 
-        const togglePopupBtn = document.getElementById("togglePopupBtn");
-            togglePopupBtn.addEventListener("click", function () {
-                const popupBox = document.getElementById("popupBox");
-                if (popupBox.style.display === "none" || popupBox.style.display === "") {
-                    popupBox.style.display = "block";
-                } else {
-                    popupBox.style.display = "none";
-                }
-            });
+        // const togglePopupBtn = document.getElementById("togglePopupBtn");
+        //     togglePopupBtn.addEventListener("click", function () {
+        //         const popupBox = document.getElementById("popupBox");
+        //         if (popupBox.style.display === "none" || popupBox.style.display === "") {
+        //             popupBox.style.display = "block";
+        //         } else {
+        //             popupBox.style.display = "none";
+        //         }
+        //     });
     </script>
 </head>
 
 <body>
-    <button id="togglePopupBtn">About</button>
+    <!-- <button id="togglePopupBtn">About</button> -->
     <div id="viewDiv">
-        <div id="popupBox">
+        <!-- <div id="popupBox">
             <h2>Find My Food</h2>
             <p>This map is designed to help you locate areas in Florida and see if
                 it falls within a food desert or an area with food insecurity for educational
                 or personal purposes. Food pantries are also marked, with their addresses and 
                 phone numbers.</p>
-        </div>
+        </div> -->
     </div>
 </body>
 
