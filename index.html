@@ -45,10 +45,11 @@
             "esri/Map", 
             "esri/views/MapView", 
             "esri/widgets/Locate", 
-            "esri/widgets/Search", 
+            "esri/widgets/Search",
+            "esri/widgets/Legend", 
             "esri/layers/FeatureLayer"], 
 
-        function(esriConfig, Map, MapView, Locate, Search, FeatureLayer) {
+        function(esriConfig, Map, MapView, Locate, Search, FeatureLayer, Legend) {
             
             // adds api key to use esri.js
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurCp0yZc6iRenDrhA3AMRYMb-ybUwBFVK_OKiBCZf4k4ql4ildsvRvwu2n9YSSahzZiyjQ67cvFxEB8U45MsT1tnpVqKoAKAqt-T4ufLFCv_TZnloiIBdv33_qGIEV0i_K1z9F-HXXGTvUmcfZbvLckqFqTUfJnqB6oAN5tl2fGKT-OME4yqyYGmWeCrpV0wOi2BzpY3-HqsVZJ3IFuxIXc8.AT1_uMncBI2j";
@@ -81,7 +82,7 @@
             map.add(foodDesert);
 
             const lowAccessPopup = {
-                "title": "Areas with Limited Access to Supermarkets",
+                "title": "Limited Access to Supermarkets",
                 "content": "<b> Population with low access (%)</b>: {PopwtAcces}"
             }
 
@@ -129,6 +130,8 @@
                 position: "top-right"
             });
 
+
+            // creates introduction popup
             const popup = new Popup({
                 view: view,
                 alignment: "top-right",
@@ -139,10 +142,10 @@
                 phone numbers.`
             });
 
-            // Add the popup to the view
+            // adds popup to the view
             view.popup = popup;
 
-            // Toggle popup visibility
+            // toggles popup visibility
             const togglePopupBtn = document.getElementById("togglePopupBtn");
             togglePopupBtn.addEventListener("click", function () {
                 if (view.popup.visible) {
@@ -151,6 +154,28 @@
                     view.popup.visible = true;
                 }
             });
+
+            const legend = new Legend({
+                view: view,
+                layerInfos: [
+                    {
+                        layer: foodDesert,
+                        title: "Food Desert"
+                    },
+                    {
+                        layer: lowAccess,
+                        title: "Limited Supermarket Access Area"
+                    },
+                    {
+                        layer: foodPantry,
+                        title: "Food Pantry"
+                    }
+                ],
+                style: "card"
+            });
+
+            view.ui.add(legend, {
+                position: "bottom-right"
 
         });
 
