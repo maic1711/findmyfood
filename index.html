@@ -37,7 +37,7 @@
             "esri/widgets/Search", 
             "esri/layers/FeatureLayer", 
             "esri/widgets/Editor"], 
-            
+
         function(esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor) {
             
             // adds api key to use esri.js
@@ -55,8 +55,17 @@
                 zoom: 4
             });
 
+            const foodPopup = {
+                "title": "Food Desert in {County} County",
+                "content": `
+                <b>Poverty Rate</b>: {PovertyRate}<br> 
+                <b>Median Family Income</b>: {MedianFamilyIncome}`
+            }
+
             const foodDesert = new FeatureLayer({
-                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/Join_Features_to_Census_Tracts_2010/FeatureServer"
+                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/Join_Features_to_Census_Tracts_2010/FeatureServer",
+                outFields: ["County", "PovertyRate", "MedianFamilyIncome"],
+                popupTemplate: foodPopup
             });
 
             map.add(foodDesert);
@@ -81,8 +90,19 @@
                 position: "top-right"
             });
 
+            const providerRenderer = {
+                "type": "simple",
+                "symbol": {
+                    "type": "simple-marker",
+                    "color": " #ffce1b",  // mustard yellow
+                    "size": 10
+                }
+            }
+
             const providerLayer = new FeatureLayer({
-                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Food_Providers/FeatureServer"
+                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Food_Providers/FeatureServer",
+                outfields: ["Food Provider", "Location"],
+                symbol: providerRenderer
             });
 
             const pointInfo = {
