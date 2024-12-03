@@ -23,12 +23,23 @@
             height: 100%;
             width: 100%;
         }
-
+        #popupBox {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
         #togglePopupBtn {
             position: absolute;
             top: 10px;
             left: 10px;
-            z-index: 99;
+            z-index: 1001;
             background-color: white;
             padding: 10px;
             border: 1px solid #ccc;
@@ -130,31 +141,6 @@
                 position: "top-right"
             });
 
-
-            // creates introduction popup
-            const popup = new Popup({
-                view: view,
-                alignment: "top-right",
-                content: `
-                This map is designed to help you locate areas in Florida and see if
-                it falls within a food desert or an area with food insecurity for educational
-                or personal purposes. Food pantries are also marked, with their addresses and 
-                phone numbers.`
-            });
-
-            // adds popup to the view
-            view.popup = popup;
-
-            // toggles popup visibility
-            const togglePopupBtn = document.getElementById("togglePopupBtn");
-            togglePopupBtn.addEventListener("click", function () {
-                if (view.popup.visible) {
-                    view.popup.visible = false;
-                } else {
-                    view.popup.visible = true;
-                }
-            });
-
             const legend = new Legend({
                 view: view,
                 layerInfos: [
@@ -175,7 +161,7 @@
             });
 
             view.ui.add(legend, "bottom-right");
-            
+
         });
 
 
@@ -185,7 +171,16 @@
 
   <body>
     <button id="togglePopupBtn">Toggle Popup</button>
-    <div id="viewDiv"></div>
+    <div id="viewDiv">
+        <div id="popupBox">
+            <h2>Find My Food</h2>
+            <p>This map is designed to help you locate areas in Florida and see if
+                it falls within a food desert or an area with food insecurity for educational
+                or personal purposes. Food pantries are also marked, with their addresses and 
+                phone numbers.</p>
+        </div>
+    </div>
+
   </body>
 
 </html>
