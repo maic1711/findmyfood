@@ -23,6 +23,24 @@
             height: 100%;
             width: 100%;
         }
+        .addRecordBtn {
+        position: absolute;
+        z-index: 10;
+        top: 10px;
+        left: 10px;
+        background-color: #ffffff;
+        color: #c7c4c4;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+        }
+
+        .addRecordBtn:hover {
+        background-color: #d9dddf;
+        }
 
     </style>
 
@@ -39,7 +57,7 @@
             "esri/widgets/Editor",
             "esri/widgets/Legend"], 
 
-        (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend) => {
+        function(esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend) {
             
             // adds api key to use esri.js
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurCp0yZc6iRenDrhA3AMRYMb-ybUwBFVK_OKiBCZf4k4ql4ildsvRvwu2n9YSSahzZiyjQ67cvFxEB8U45MsT1tnpVqKoAKAqt-T4ufLFCv_TZnloiIBdv33_qGIEV0i_K1z9F-HXXGTvUmcfZbvLckqFqTUfJnqB6oAN5tl2fGKT-OME4yqyYGmWeCrpV0wOi2BzpY3-HqsVZJ3IFuxIXc8.AT1_uMncBI2j";
@@ -120,21 +138,25 @@
                 position: "top-right"
             });
 
-            const providerLayer = new FeatureLayer({
-                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Universities/FeatureServer", // "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Other_Food_Providers/FeatureServer",
-                outfields: ["FoodProvider"]
+            // const providerLayer = new FeatureLayer({
+            //     url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Other_Food_Providers/FeatureServer",
+            //     outfields: ["FoodProvider"]
+            // });
+
+            // const pointInfos = {
+            //     layer: providerLayer
+            // }
+
+            // const editor = new Editor({
+            //     view: view,
+            //     layerInfos: [pointInfos]
+            // });
+
+            // view.ui.add(editor, "bottom-right");
+
+            const surveyLayer = new FeatureLayer({
+                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/survey123_6b6d06b3328f42458dbbb584779cb253_results/FeatureServer"
             });
-
-            const pointInfos = {
-                layer: providerLayer
-            }
-
-            const editor = new Editor({
-                view: view,
-                layerInfos: [pointInfos]
-            });
-
-            view.ui.add(editor, "bottom-right");
 
             const legend = new Legend({
                 view: view,
@@ -165,6 +187,7 @@
   </head>
 
   <body>
+    <a href="https://arcg.is/1mSzPz1" target="_blank" class="addRecordBtn">About</a>
     <div id="viewDiv"></div>
   </body>
 
