@@ -1,7 +1,7 @@
 <!DOCTYPE html>
  <html>
 
-<head>
+  <head>
 
     <!-- meta for the browser to allow for mobile-first design -->
     <meta charset="utf-8" />
@@ -23,29 +23,7 @@
             height: 100%;
             width: 100%;
         }
-        /* #popupBox {
-            display: none;
-            position: absolute;
-            top: 50%;
-            right: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            padding: 20px;
-            background-color: white;
-            border: 1px solid #ccc;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        } */
-        /* #togglePopupBtn {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 1001;
-            background-color: white;
-            padding: 10px;
-            border: 1px solid #ccc;
-            cursor: pointer;
-        } */
+
     </style>
 
     <!-- adding modules from esri.js -->
@@ -56,11 +34,12 @@
             "esri/Map", 
             "esri/views/MapView", 
             "esri/widgets/Locate", 
-            "esri/widgets/Search",
-            "esri/widgets/Legend", 
-            "esri/layers/FeatureLayer"], 
+            "esri/widgets/Search", 
+            "esri/layers/FeatureLayer", 
+            "esri/widgets/Editor",
+            "esri/widgets/Legend"], 
 
-        function(esriConfig, Map, MapView, Locate, Search, FeatureLayer, Legend) {
+        function(esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor) {
             
             // adds api key to use esri.js
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurCp0yZc6iRenDrhA3AMRYMb-ybUwBFVK_OKiBCZf4k4ql4ildsvRvwu2n9YSSahzZiyjQ67cvFxEB8U45MsT1tnpVqKoAKAqt-T4ufLFCv_TZnloiIBdv33_qGIEV0i_K1z9F-HXXGTvUmcfZbvLckqFqTUfJnqB6oAN5tl2fGKT-OME4yqyYGmWeCrpV0wOi2BzpY3-HqsVZJ3IFuxIXc8.AT1_uMncBI2j";
@@ -93,7 +72,7 @@
             map.add(foodDesert);
 
             const lowAccessPopup = {
-                "title": "Limited Access to Supermarkets",
+                "title": "Areas with Limited Access to Supermarkets",
                 "content": "<b> Population with low access (%)</b>: {PopwtAcces}"
             }
 
@@ -141,35 +120,66 @@
                 position: "top-right"
             });
 
+            const providerRenderer = {
+                "type": "simple",
+                "symbol": {
+                    "type": "simple-marker",
+                    "color": " #ffce1b",  // mustard yellow
+                    "size": 10
+                }
+            };
+
+            const providerLayer = new FeatureLayer({
+                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Food_Providers/FeatureServer",
+                outfields: ["FoodProvider", "Location"],
+                symbol: providerRenderer,
+                editingEnabled: true
+            });
+
+            const pointInfos = {
+                layer: providerLayer
+            }
+
+            const editor = new Editor({
+                view: view,
+                layerInfos: [pointInfos]
+            });
+
+            view.ui.add(editor, "bottom-right");
+
             const legend = new Legend({
                 view: view,
                 layerInfos: [
                     {
                         layer: foodDesert,
-                        title: "Food Desert"
+                        title: "Food Deserts"
                     },
                     {
                         layer: lowAccess,
-                        title: "Limited Supermarket Access Area"
+                        title: "Low Access Areas"
                     },
                     {
                         layer: foodPantry,
-                        title: "Food Pantry"
+                        title: "Food Pantries"
+                    },
+                    {
+                        layer: providerLayer,
+                        title: "Food Providers"
                     }
-                ],
-                style: "card"
+                ]
             });
 
-            view.ui.add(legend, "bottom-right");
+            view.ui.add(legend, "bottom-left");
 
         });
+
+
     </script>
-    
-</head>
 
-<body>
+  </head>
+
+  <body>
     <div id="viewDiv"></div>
-</body>
-
+  </body>
 
 </html>
