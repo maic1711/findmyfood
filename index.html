@@ -39,7 +39,7 @@
             "esri/widgets/Editor",
             "esri/widgets/Legend"], 
 
-        (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor) => {
+        (esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor, Legend) => {
             
             // adds api key to use esri.js
             esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurCp0yZc6iRenDrhA3AMRYMb-ybUwBFVK_OKiBCZf4k4ql4ildsvRvwu2n9YSSahzZiyjQ67cvFxEB8U45MsT1tnpVqKoAKAqt-T4ufLFCv_TZnloiIBdv33_qGIEV0i_K1z9F-HXXGTvUmcfZbvLckqFqTUfJnqB6oAN5tl2fGKT-OME4yqyYGmWeCrpV0wOi2BzpY3-HqsVZJ3IFuxIXc8.AT1_uMncBI2j";
@@ -121,7 +121,7 @@
             });
 
             const providerLayer = new FeatureLayer({
-                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Other_Food_Providers/FeatureServer",
+                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Universities/FeatureServer", // "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Other_Food_Providers/FeatureServer",
                 outfields: ["FoodProvider"]
             });
 
@@ -150,16 +150,12 @@
                     {
                         layer: foodPantry,
                         title: "Food Pantries"
-                    },
-                    {
-                        layer: providerLayer,
-                        title: "Food Providers"
                     }
                 ],
                 style: "card"
             });
 
-            view.ui.add(legend);
+            view.ui.add(legend, "bottom-left");
 
         });
 
