@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+ <html>
+
+  <head>
+
+    <!-- meta for the browser to allow for mobile-first design -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <title>Find My Food</title>
+
+    <!-- importing css and libraries for esri.js -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.30/"></script>
+
+    <!--styling page's content to make map full screen-->
+    <style>
+        html,
+        body, 
+        #viewDiv{
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+    </style>
+
+    <!-- adding modules from esri.js -->
+    <script>
+
+        require([
+            "esri/config", 
+            "esri/Map", 
+            "esri/views/MapView", 
+            "esri/widgets/Locate", 
+            "esri/widgets/Search", 
+            "esri/layers/FeatureLayer", 
+            "esri/widgets/Editor"], 
+
+        function(esriConfig, Map, MapView, Locate, Search, FeatureLayer, Editor) {
+            
+            // adds api key to use esri.js
+            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurCp0yZc6iRenDrhA3AMRYMb-ybUwBFVK_OKiBCZf4k4ql4ildsvRvwu2n9YSSahzZiyjQ67cvFxEB8U45MsT1tnpVqKoAKAqt-T4ufLFCv_TZnloiIBdv33_qGIEV0i_K1z9F-HXXGTvUmcfZbvLckqFqTUfJnqB6oAN5tl2fGKT-OME4yqyYGmWeCrpV0wOi2BzpY3-HqsVZJ3IFuxIXc8.AT1_uMncBI2j";
+
+            // defines map
+            const map = new Map({   
+                basemap: "arcgis/topographic"
+            });
+
+            const view = new MapView({
+                container: "viewDiv",
+                map: map, // references the map object
+                center: [-81.76, 27.99], // long, lat of Florida
+                zoom: 6
+            });
+
+            const foodPopup = {
+                "title": "Food Desert in {County} County",
+                "content": `
+                <b>Poverty Rate</b>: {PovertyRate}<br> 
+                <b>Median Family Income</b>: {MedianFamilyIncome}`
+            }
+
+            const foodDesert = new FeatureLayer({
+                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/Join_Features_to_Census_Tracts_2010/FeatureServer",
+                outFields: ["County", "PovertyRate", "MedianFamilyIncome"],
+                popupTemplate: foodPopup
+            });
+
+            map.add(foodDesert);
+
+            const lowAccessPopup = {
+                "title": "Areas with Limited Access to Supermarkets",
+                "content": "<b> Population with low access (%)</b>: {PopwtAcces}"
+            }
+
+            const lowAccess = new FeatureLayer({
+                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/TRF_LSA_ms/FeatureServer",
+                outFields: "PopwtAcces",
+                popupTemplate: lowAccessPopup
+
+            });
+
+            map.add(lowAccess);
+
+            const pantryPopup = {
+                "title": "Food Pantry: {Agency_Name}",
+                "content": `
+                <b>Address</b>: {Address}, {City}<br>
+                <b>Phone Number</b>: {Phone_Number}`
+            }
+
+            const foodPantry = new FeatureLayer({
+                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/Food_Pantries/FeatureServer",
+                outfields: ["Agency_Name", "Address", "City", "Phone_Number"],
+                popupTemplate: pantryPopup
+            });
+
+            map.add(foodPantry);
+
+            // creates locate widget
+            const  locateButton = new Locate({
+                view: view,
+                icon: "explore"
+            });
+            
+            // adds locate widget to top-left corner of map view
+            view.ui.add(locateButton, {
+                position: "top-left"
+            });
+
+            // creates search bar widget
+            const searchBar = new Search({
+                view: view
+            });
+
+            view.ui.add(searchBar, {
+                position: "top-right"
+            });
+
+            const providerRenderer = {
+                "type": "simple",
+                "symbol": {
+                    "type": "simple-marker",
+                    "color": " #ffce1b",  // mustard yellow
+                    "size": 10
+                }
+            };
+
+            const providerLayer = new FeatureLayer({
+                url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Food_Providers/FeatureServer",
+                outfields: ["FoodProvider", "Location"],
+                symbol: providerRenderer,
+                editingEnabled: true
+            });
+
+            const pointInfos = {
+                layer: providerLayer
+            }
+
+            const editor = new Editor({
+                view: view,
+                layerInfos: [pointInfos]
+            });
+
+            view.ui.add(editor, "bottom-right");
+
+        });
+
+
+    </script>
+
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+
+</html>
+
+
+
+
+
+
+
+***************************
+
+<!DOCTYPE html>
+ <html>
+
+<head>
+
+    <!-- meta for the browser to allow for mobile-first design -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <title>Find My Food</title>
+
+    <!-- importing css and libraries for esri.js -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.30/"></script>
+
+    <!--styling page's content to make map full screen-->
+    <style>
+        html,
+        body, 
+        #viewDiv{
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+        /* #popupBox {
+            display: none;
+            position: absolute;
+            top: 50%;
+            right: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        } */
+        /* #togglePopupBtn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1001;
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        } */
+    </style>
+
+    <!-- adding modules from esri.js -->
+    <script>
+
+        require([
+            "esri/config", 
+            "esri/Map", 
+            "esri/views/MapView", 
+            "esri/widgets/Locate", 
+            "esri/widgets/Search",
+            "esri/widgets/Legend", 
+            "esri/layers/FeatureLayer"], 
+
+        function(esriConfig, Map, MapView, Locate, Search, FeatureLayer, Legend) {
+            
+            // adds api key to use esri.js
+            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurCp0yZc6iRenDrhA3AMRYMb-ybUwBFVK_OKiBCZf4k4ql4ildsvRvwu2n9YSSahzZiyjQ67cvFxEB8U45MsT1tnpVqKoAKAqt-T4ufLFCv_TZnloiIBdv33_qGIEV0i_K1z9F-HXXGTvUmcfZbvLckqFqTUfJnqB6oAN5tl2fGKT-OME4yqyYGmWeCrpV0wOi2BzpY3-HqsVZJ3IFuxIXc8.AT1_uMncBI2j";
+
+            // defines map
+            const map = new Map({   
+                basemap: "arcgis/topographic"
+            });
+
+            const view = new MapView({
+                container: "viewDiv",
+                map: map, // references the map object
+                center: [-81.76, 27.99], // long, lat of Florida
+                zoom: 6
+            });
+
+            const foodPopup = {
+                "title": "Food Desert in {County} County",
+                "content": `
+                <b>Poverty Rate</b>: {PovertyRate}<br> 
+                <b>Median Family Income</b>: {MedianFamilyIncome}`
+            }
+
+            const foodDesert = new FeatureLayer({
+                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/Join_Features_to_Census_Tracts_2010/FeatureServer",
+                outFields: ["County", "PovertyRate", "MedianFamilyIncome"],
+                popupTemplate: foodPopup
+            });
+
+            map.add(foodDesert);
+
+            const lowAccessPopup = {
+                "title": "Limited Access to Supermarkets",
+                "content": "<b> Population with low access (%)</b>: {PopwtAcces}"
+            }
+
+            const lowAccess = new FeatureLayer({
+                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/TRF_LSA_ms/FeatureServer",
+                outFields: "PopwtAcces",
+                popupTemplate: lowAccessPopup
+
+            });
+
+            map.add(lowAccess);
+
+            const pantryPopup = {
+                "title": "Food Pantry: {Agency_Name}",
+                "content": `
+                <b>Address</b>: {Address}, {City}<br>
+                <b>Phone Number</b>: {Phone_Number}`
+            }
+
+            const foodPantry = new FeatureLayer({
+                url: "https://services1.arcgis.com/T0NPfOCJr9tmBN93/arcgis/rest/services/Food_Pantries/FeatureServer",
+                outfields: ["Agency_Name", "Address", "City", "Phone_Number"],
+                popupTemplate: pantryPopup
+            });
+
+            map.add(foodPantry);
+
+            // creates locate widget
+            const  locateButton = new Locate({
+                view: view,
+                icon: "explore"
+            });
+            
+            // adds locate widget to top-left corner of map view
+            view.ui.add(locateButton, {
+                position: "top-left"
+            });
+
+            // creates search bar widget
+            const searchBar = new Search({
+                view: view
+            });
+
+            view.ui.add(searchBar, {
+                position: "top-right"
+            });
+
+            const legend = new Legend({
+                view: view,
+                layerInfos: [
+                    {
+                        layer: foodDesert,
+                        title: "Food Desert"
+                    },
+                    {
+                        layer: lowAccess,
+                        title: "Limited Supermarket Access Area"
+                    },
+                    {
+                        layer: foodPantry,
+                        title: "Food Pantry"
+                    }
+                ],
+                style: "card"
+            });
+
+            view.ui.add(legend, "bottom-right");
+
+        });
+    </script>
+    
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+
+</html>
